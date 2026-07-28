@@ -1,0 +1,137 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  TEACHER
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+}
+
+model User {
+  id        String    @id @default(uuid())
+  email     String    @unique
+  password  String
+  role      UserRole  @default(TEACHER)
+  fullName  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  teacher   Teacher?
+
+  @@index([email])
+}
+
+model Department {
+  id        String    @id @default(uuid())
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  teachers  Teacher[]
+  classes   Class[]
+}
+
+model Teacher {
+  id            String      @id @default(uuid())
+  userId        String      @unique
+  departmentId  String
+  employeeId    String      @unique
+  phoneNumber   String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  deletedAt     DateTime?
+
+  user          User        @relation(fields: [userId], references: [id])
+  department    Department  @relation(fields: [departmentId], references: [id])
+  attendance    TeacherAttendance[]
+  classes       Class[]
+}
+
+model Student {
+  id          String    @id @default(uuid())
+  rollNumber  String    @unique
+  fullName    String
+  classId     String
+  gender      String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  class       Class     @relation(fields: [classId], references: [id])
+  attendance  StudentAttendance[]
+
+  @@index([rollNumber])
+}
+
+model Class {
+  id            String      @id @default(uuid())
+  name          String
+  section       String
+  departmentId  String
+  teacherId     String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  deletedAt     DateTime?
+
+  department    Department  @relation(fields: [departmentId], references: [id])
+  teacher       Teacher?    @relation(fields: [teacherId], references: [id])
+  students      Student[]
+  attendance    StudentAttendance[]
+
+  @@unique([name, section])
+}
+
+model TeacherAttendance {
+  id          String    @id @default(uuid())
+  teacherId   String
+  date        DateTime  @db.Date
+  checkIn     DateTime
+  checkOut    DateTime?
+  deviceId    String?
+  latitude    Float?
+  longitude   Float?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  teacher     Teacher   @relation(fields: [teacherId], references: [id])
+
+  @@unique([teacherId, date])
+  @@index([date])
+}
+
+model StudentAttendance {
+  id          String            @id @default(uuid())
+  studentId   String
+  classId     String
+  date        DateTime          @db.Date
+  status      AttendanceStatus  @default(PRESENT)
+  takenBy     String?           // Teacher ID
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  student     Student           @relation(fields: [studentId], references: [id])
+  class       Class             @relation(fields: [classId], references: [id])
+
+  @@unique([studentId, date])
+  @@index([date])
+}
+
+model Setting {
+  id        String    @id @default(uuid())
+  key       String    @unique
+  value     String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
