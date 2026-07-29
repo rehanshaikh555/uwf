@@ -1,6 +1,9 @@
-export const metadata = {
-  title: "Attendance System",
-  description: "Attendance Management",
+import "./globals.css";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "EasyShare Workforce",
+  description: "Smart Workforce & Attendance Management",
 };
 
 export default function RootLayout({
