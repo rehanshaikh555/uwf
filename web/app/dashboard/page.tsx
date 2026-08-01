@@ -1,34 +1,38 @@
+"use client";
+
 import {
-  AttendanceChart,
-  QuickActions,
-  RecentAttendance,
   StatsGrid,
+  AttendanceChart,
+  RecentAttendance,
+  QuickActions,
 } from "@/components/dashboard";
 
 export default function DashboardPage() {
   return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold text-slate-900">
-          Dashboard
+    <div className="space-y-6">
+
+      <div className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-8 text-white shadow-lg">
+        <h1 className="text-4xl font-bold">
+          Welcome Back, Admin 👋
         </h1>
 
-        <p className="mt-2 text-slate-500">
-          Welcome back to EasyShare Workforce.
+        <p className="mt-3 text-blue-100">
+          Here's today's workforce summary.
         </p>
       </div>
 
       <StatsGrid />
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2">
-          <AttendanceChart />
-        </div>
+      <AttendanceChart />
+
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+
+        <RecentAttendance />
 
         <QuickActions />
+
       </div>
 
-      <RecentAttendance />
     </div>
   );
 }

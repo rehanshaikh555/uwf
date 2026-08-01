@@ -1,6 +1,12 @@
 export { default as Sidebar } from "./Sidebar";
-export { default as StatsCard } from "./StatsCard";
+export { default as DashboardHeader } from "./DashboardHeader";
+export { default as WelcomeBanner } from "./WelcomeBanner";
 export { default as StatsGrid } from "./StatsGrid";
+export { default as StatsCard } from "./StatsCard";
 export { default as AttendanceChart } from "./AttendanceChart";
-export { default as QuickActions } from "./QuickActions";
+export { default as DepartmentChart } from "./DepartmentChart";
 export { default as RecentAttendance } from "./RecentAttendance";
+export { default as ActivityFeed } from "./ActivityFeed";
+export { default as QuickActions } from "./QuickActions";
+export { default as HolidayCard } from "./HolidayCard";
+export { default as CalendarWidget } from "./CalendarWidget";

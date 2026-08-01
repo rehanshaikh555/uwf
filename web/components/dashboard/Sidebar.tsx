@@ -2,19 +2,19 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
 import {
   LayoutDashboard,
   Users,
   GraduationCap,
-  ClipboardCheck,
-  FileText,
+  CalendarDays,
+  FileBarChart2,
   Settings,
   LogOut,
-  Building2,
+  ShieldCheck,
 } from "lucide-react";
-import clsx from "clsx";
 
-const menuItems = [
+const menu = [
   {
     title: "Dashboard",
     href: "/dashboard",
@@ -33,12 +33,12 @@ const menuItems = [
   {
     title: "Attendance",
     href: "/dashboard/attendance",
-    icon: ClipboardCheck,
+    icon: CalendarDays,
   },
   {
     title: "Reports",
     href: "/dashboard/reports",
-    icon: FileText,
+    icon: FileBarChart2,
   },
   {
     title: "Settings",
@@ -51,28 +51,32 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="flex h-screen w-72 flex-col border-r border-slate-200 bg-white shadow-sm">
+    <aside className="fixed left-0 top-0 flex h-screen w-72 flex-col border-r border-slate-200 bg-white">
 
       {/* Logo */}
 
-      <div className="border-b border-slate-200 p-6">
+      <div className="border-b p-6">
 
         <div className="flex items-center gap-4">
 
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-600 shadow-lg">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600">
 
-            <Building2 className="h-7 w-7 text-white" />
+            <ShieldCheck className="h-7 w-7 text-white" />
 
           </div>
 
           <div>
 
-            <h2 className="text-xl font-bold text-slate-900">
+            <h2 className="text-xl font-bold">
+
               EasyShare
+
             </h2>
 
             <p className="text-sm text-slate-500">
-              Workforce
+
+              Workforce Suite
+
             </p>
 
           </div>
@@ -85,66 +89,76 @@ export default function Sidebar() {
 
       <nav className="flex-1 space-y-2 p-5">
 
-        {menuItems.map((item) => {
-          const Icon = item.icon;
+        {menu.map((item) => {
 
-          const active =
-            pathname === item.href;
+          const active = pathname === item.href;
 
           return (
+
             <Link
               key={item.title}
               href={item.href}
-              className={clsx(
-                "group flex items-center gap-4 rounded-xl px-4 py-3 transition-all duration-200",
+              className={`flex items-center gap-4 rounded-xl px-4 py-3 transition-all
 
+              ${
                 active
-                  ? "bg-blue-600 text-white shadow-md"
-                  : "text-slate-600 hover:bg-slate-100 hover:text-blue-600"
-              )}
+                  ? "bg-blue-600 text-white shadow-lg"
+                  : "text-slate-600 hover:bg-slate-100"
+              }`}
             >
-              <Icon
-                className={clsx(
-                  "h-5 w-5",
-
-                  active
-                    ? "text-white"
-                    : "group-hover:text-blue-600"
-                )}
-              />
+              <item.icon className="h-5 w-5" />
 
               <span className="font-medium">
+
                 {item.title}
+
               </span>
+
             </Link>
+
           );
+
         })}
+
       </nav>
 
-      {/* Footer */}
+      {/* Bottom */}
 
-      <div className="border-t border-slate-200 p-5">
+      <div className="border-t p-5">
 
-        <div className="mb-5 rounded-xl bg-slate-100 p-4">
+        <div className="mb-5 flex items-center gap-3">
 
-          <p className="text-sm font-semibold text-slate-800">
-            Admin User
-          </p>
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-lg font-bold text-blue-700">
 
-          <p className="text-xs text-slate-500">
-            Super Administrator
-          </p>
+            A
+
+          </div>
+
+          <div>
+
+            <h4 className="font-semibold">
+
+              Admin User
+
+            </h4>
+
+            <p className="text-sm text-slate-500">
+
+              Administrator
+
+            </p>
+
+          </div>
 
         </div>
 
-        <Link
-          href="/login"
-          className="flex items-center gap-3 rounded-xl border border-red-200 px-4 py-3 text-red-600 transition hover:bg-red-50"
-        >
+        <button className="flex w-full items-center justify-center gap-3 rounded-xl border border-red-200 py-3 text-red-600 transition hover:bg-red-50">
+
           <LogOut className="h-5 w-5" />
 
           Logout
-        </Link>
+
+        </button>
 
       </div>
 
